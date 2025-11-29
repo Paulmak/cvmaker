@@ -1,14 +1,26 @@
 //
-//  UIButton+Animation.swift
+//  TappableButton.swift
 //  cvmaker
 //
-//  Created by Pavel on 25.10.2025.
+//  Created by Pavel on 29.11.2025.
 //
 
 import UIKit
 
+class TappableButton: UIButton {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+}
 
-extension UIButton {
+extension TappableButton {
     
     func addTapAnimation() {
         addTarget(self, action: #selector(animateTap), for: .touchUpInside)

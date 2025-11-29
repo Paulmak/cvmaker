@@ -131,7 +131,7 @@ final class EditViewController: UIViewController {
             view.addSubview(experiencePickerTextField!)
         }
         
-        let picker = PickerView()
+        let picker = UIPickerView()
         experiencePickerHandler = PickerViewHandler(years: years, months: months) { [weak self] selected in
             guard let self = self else { return }
             var updatedProfile = self.viewModel.profile

@@ -8,13 +8,9 @@
 import UIKit
 
 struct EditViewModel {
+    
     let profile: ProfileModel
     let avatarImage: UIImage?
-    
-    init(profile: ProfileModel, avatarImage: UIImage? = nil) {
-        self.profile=profile
-        self.avatarImage=avatarImage
-    }
     
     var avatarData: (image: UIImage?, isDefault: Bool) {
         (avatarImage, avatarImage == nil)
@@ -56,7 +52,23 @@ struct EditViewModel {
     }
     
     static func empty() -> EditViewModel {
-        EditViewModel(profile: ProfileModel())
+        EditViewModel(profile: ProfileModel(firstName: nil,
+                                            lastName: nil,
+                                            patronymic: nil,
+                                            genderIndex: nil,
+                                            birthdate: nil,
+                                            hobbies: nil,
+                                            phone: nil,
+                                            email: nil,
+                                            telegram: nil,
+                                            specialization: nil,
+                                            experience: nil,
+                                            salary: nil,
+                                            salaryLabel: nil,
+                                            hardSkills: nil,
+                                            isOpenToOffers: nil
+                                           ), avatarImage: nil
+        )
     }
     
     static func fromStorage() -> EditViewModel {

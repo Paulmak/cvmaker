@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PreviewButton: UIButton {
+final class PreviewButton: TappableButton {
     
     private enum Constants {
         static let buttonHeight: CGFloat = 52

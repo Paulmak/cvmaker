@@ -39,14 +39,14 @@ final class EditView: UIView {
     weak var delegate: EditViewDelegate?
     var isDefaultAvatar = true
     
-    private lazy var scrollView: ScrollView = {
-        let scrollView = ScrollView()
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    private lazy var contentView: CustomContentView = {
-        let contentView = CustomContentView()
+    private lazy var contentView: UIView = {
+        let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
         return contentView
     }()
@@ -73,8 +73,12 @@ final class EditView: UIView {
         return label
     }()
     
-    private lazy var commonInfoStackView: VerticalStackView = {
-        let stackView = VerticalStackView(for: .group)
+    private lazy var commonInfoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -103,8 +107,12 @@ final class EditView: UIView {
         return textView
     }()
     
-    private lazy var birthdayInfoStackView: HorizontalStackView = {
-        let stackView = HorizontalStackView()
+    private lazy var birthdayInfoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.spacing = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -129,8 +137,12 @@ final class EditView: UIView {
         return label
     }()
     
-    private lazy var contactsInfoStackView: VerticalStackView = {
-        let stackView = VerticalStackView(for: .group)
+    private lazy var contactsInfoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -160,8 +172,12 @@ final class EditView: UIView {
         return label
     }()
     
-    private lazy var jobseekersInfoStackView: VerticalStackView = {
-        let stackView = VerticalStackView(for: .group)
+    private lazy var jobseekersInfoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -178,8 +194,12 @@ final class EditView: UIView {
         return textView
     }()
     
-    private lazy var jobExperienceInfoStackView: HorizontalStackView = {
-        let stackView = HorizontalStackView()
+    private lazy var jobExperienceInfoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.spacing = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -203,8 +223,12 @@ final class EditView: UIView {
         return view
     }()
     
-    private lazy var jobStatusStackView: HorizontalStackView = {
-        let stackView = HorizontalStackView()
+    private lazy var jobStatusStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.spacing = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()

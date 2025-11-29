@@ -8,6 +8,7 @@
 import UIKit
 
 extension UIStackView {
+    
     func setArrangedSubview(_ view: UIView, hidden: Bool) {
         if hidden {
             if self.arrangedSubviews.contains(view) {

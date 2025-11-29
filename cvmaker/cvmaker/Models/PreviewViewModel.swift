@@ -8,13 +8,9 @@
 import UIKit
 
 struct PreviewViewModel {
+    
     let profile: ProfileModel
     let avatarImage: UIImage?
-    
-    init(profile: ProfileModel, avatarImage: UIImage? = nil) {
-        self.profile = profile
-        self.avatarImage = avatarImage
-    }
     
     var avatarData: (image: UIImage?, genderIndex: Int?) {
         if let avatarImage = avatarImage {

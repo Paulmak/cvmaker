@@ -10,7 +10,7 @@ import UIKit
 final class DatePickerManager {
     
     private weak var presenter: UIViewController?
-    private let datePicker = DatePicker()
+    private let datePicker = UIDatePicker()
     private var completion: ((Date) -> Void)?
     
     init(presenter: UIViewController) {
@@ -23,6 +23,10 @@ final class DatePickerManager {
         let alert = UIAlertController(title: "Выберите дату", message: nil, preferredStyle: .actionSheet)
         alert.view.addSubview(datePicker)
         
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.locale = Locale(identifier: "ru_RU")
+        datePicker.maximumDate = Date()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([

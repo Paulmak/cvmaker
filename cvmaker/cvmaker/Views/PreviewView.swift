@@ -34,14 +34,18 @@ final class PreviewView: UIView {
     
     weak var delegate: PreviewViewDelegate?
     
-    private lazy var scrollView: ScrollView = {
-        let scrollView = ScrollView()
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    private let mainVerticalStackView: VerticalStackView = {
-        let stack = VerticalStackView(for: .main)
+    private let mainVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 30
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -60,8 +64,12 @@ final class PreviewView: UIView {
         return imageView
     }()
     
-    private lazy var titleVerticalStackView: VerticalStackView = {
-        let stack = VerticalStackView(for: .keyValue)
+    private lazy var titleVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 5
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -113,28 +121,44 @@ final class PreviewView: UIView {
         return imageView
     }()
     
-    private lazy var contactInformationVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .group)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var contactInformationVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 15
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
-    private lazy var phoneInformationHorizontalStackView: HorizontalStackView = {
-        let horizontalStackView = HorizontalStackView()
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return horizontalStackView
+    private lazy var phoneInformationHorizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.spacing = 15
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
-    private lazy var emailInformationHorizontalStackView: HorizontalStackView = {
-        let horizontalStackView = HorizontalStackView()
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return horizontalStackView
+    private lazy var emailInformationHorizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.spacing = 15
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
-    private lazy var telegramInformationHorizontalStackView: HorizontalStackView = {
-        let horizontalStackView = HorizontalStackView()
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return horizontalStackView
+    private lazy var telegramInformationHorizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.spacing = 15
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     private lazy var phoneNumberLabel: Label = {
@@ -191,10 +215,14 @@ final class PreviewView: UIView {
         return imageView
     }()
     
-    private lazy var commonInformationVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .group)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var commonInformationVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 15
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
     private lazy var commonInformationTitle: Label = {
@@ -204,10 +232,14 @@ final class PreviewView: UIView {
         return label
     }()
     
-    private lazy var firstAndSecondNameVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .keyValue)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var firstAndSecondNameVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 5
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
     private lazy var firstAndSecondNameLabel: Label = {
@@ -222,10 +254,14 @@ final class PreviewView: UIView {
         return label
     }()
     
-    private lazy var genderVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .keyValue)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var genderVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 5
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
     private lazy var genderLabel: Label = {
@@ -240,10 +276,14 @@ final class PreviewView: UIView {
         return label
     }()
     
-    private lazy var birthDateVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .keyValue)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var birthDateVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 5
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
     private lazy var birthDateLabel: Label = {
@@ -258,10 +298,14 @@ final class PreviewView: UIView {
         return label
     }()
     
-    private lazy var hobbiesVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .keyValue)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var hobbiesVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 5
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
     private lazy var hobbiesLabel: Label = {
@@ -289,16 +333,24 @@ final class PreviewView: UIView {
         return label
     }()
     
-    private lazy var forJobSeekersVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .group)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var forJobSeekersVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 15
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
-    private lazy var specializationVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .keyValue)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var specializationVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 5
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
     private lazy var specializationLabel: Label = {
@@ -313,10 +365,14 @@ final class PreviewView: UIView {
         return label
     }()
     
-    private lazy var experienceVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .keyValue)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var experienceVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 5
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
     private lazy var experienceLabel: Label = {
@@ -331,10 +387,14 @@ final class PreviewView: UIView {
         return label
     }()
     
-    private lazy var salaryExpectationsVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .keyValue)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var salaryExpectationsVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 5
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
     private lazy var salaryExpectationsLabel: Label = {
@@ -349,10 +409,14 @@ final class PreviewView: UIView {
         return label
     }()
     
-    private lazy var hardSkillsVerticalStackView: VerticalStackView = {
-        let verticalStackView = VerticalStackView(for: .keyValue)
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        return verticalStackView
+    private lazy var hardSkillsVerticalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 5
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }()
     
     private lazy var hardSkillsLabel: Label = {

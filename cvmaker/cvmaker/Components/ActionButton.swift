@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ActionButton: UIButton {
+final class ActionButton: TappableButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
