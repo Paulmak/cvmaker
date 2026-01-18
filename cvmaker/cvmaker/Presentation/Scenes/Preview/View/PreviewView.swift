@@ -11,24 +11,6 @@ protocol PreviewViewDelegate: AnyObject {
     func previewViewDidTapShare(_ view: PreviewView, screenshot: UIImage)
 }
 
-enum PreviewField {
-    case avatar(image: UIImage?, genderIndex: Int?)
-    case profileName(String)
-    case profileGender(String)
-    case profileAge(String)
-    case jobStatus(text: String, image: UIImage)
-    case phone(String)
-    case email(String)
-    case telegram(String)
-    case name(String)
-    case gender(String)
-    case birthDate(String)
-    case hobbies(String)
-    case specialization(String)
-    case experience(String)
-    case salary(String)
-    case hardSkills(String)
-}
 
 final class PreviewView: UIView {
     
@@ -470,8 +452,6 @@ final class PreviewView: UIView {
         
         jobStatusHorizontalStackView.addArrangedSubview(jobStatusImageView)
         jobStatusHorizontalStackView.addArrangedSubview(jobStatusLabel)
-        
-        
     }
     
     private func setupContactInformationSection() {
@@ -577,51 +557,31 @@ final class PreviewView: UIView {
         ])
     }
     
-    private func setAvatarImage(_ image: UIImage?, segmentedIndex: Int?) {
-        if let image = image {
-            imageView.image = image
-        } else {
-            let defaultImage = AvatarProvider.image(for: segmentedIndex ?? 0)
-            imageView.image = defaultImage
-        }
-    }
-    
-    func setValue(_ field: PreviewField) {
-        switch field {
-        case .avatar(let image, let index):
-            setAvatarImage(image, segmentedIndex: index)
-        case .profileName(let text):
-            profileNameLabel.text = text
-        case .profileGender(let text):
-            profileGenderLabel.text = text
-        case .profileAge(let text):
-            profileAgeLabel.text = text
-        case .jobStatus(let text, let image):
-            jobStatusLabel.text = text
-            jobStatusImageView.image = image
-        case .phone(let text):
-            phoneNumberValueLabel.text = text
-        case .email(let text):
-            emailValueLabel.text = text
-        case .telegram(let text):
-            telegramValueLabel.text = text
-        case .name(let text):
-            firstAndSecondNameValueLabel.text = text
-        case .gender(let text):
-            genderValueLabel.text = text
-        case .birthDate(let text):
-            birthDateValueLabel.text = text
-        case .hobbies(let text):
-            hobbiesValueLabel.text = text
-        case .specialization(let text):
-            specializationValueLabel.text = text
-        case .experience(let text):
-            experienceValueLabel.text = text
-        case .salary(let text):
-            salaryExpectationsValueLabel.text = text
-        case .hardSkills(let text):
-            hardSkillsValueLabel.text = text
-        }
+    func configure(with state: PreviewViewState) {
+        imageView.image = state.avatar ?? AvatarProvider.image(for: state.genderIndex)
+        
+        profileNameLabel.text = state.fullName
+        profileGenderLabel.text = state.genderAndAge
+        
+        jobStatusLabel.text = state.jobStatusText
+        jobStatusImageView.image = state.jobStatusImage
+        
+        phoneNumberValueLabel.text = state.phone
+        emailValueLabel.text = state.email
+        telegramValueLabel.text = state.telegram
+        
+        firstAndSecondNameValueLabel.text = state.fullName
+        genderValueLabel.text = state.gender
+        
+        birthDateValueLabel.text = state.birthDate
+        hobbiesValueLabel.text = state.hobbies
+        
+        specializationValueLabel.text = state.specialization
+        experienceValueLabel.text = state.experience
+        salaryExpectationsValueLabel.text = state.salary
+        hardSkillsValueLabel.text = state.hardSkills
+        
+        updateFieldVisibility()
     }
     
     func updateFieldVisibility() {

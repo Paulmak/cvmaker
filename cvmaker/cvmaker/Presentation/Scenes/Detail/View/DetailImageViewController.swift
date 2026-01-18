@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ImageViewController: UIViewController {
+final class DetailImageViewController: UIViewController {
     
     let detailImageView = DetailImageView()
     var image: UIImage?

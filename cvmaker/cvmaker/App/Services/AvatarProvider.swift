@@ -82,7 +82,7 @@ private extension AvatarProvider {
     }
     
     func openCamera() {
-       
+        
         guard let presenter = presenter else { return }
         let picker = UIImagePickerController()
         picker.sourceType = .camera
@@ -92,10 +92,10 @@ private extension AvatarProvider {
     }
     
     func openAvatarImage(_ image: UIImage) {
-       
+        
         guard let presenter = presenter else { return }
         
-        let imageVC = ImageViewController(image: image)
+        let imageVC = DetailImageViewController(image: image)
         
         imageVC.modalPresentationStyle = .automatic
         presenter.present(imageVC, animated: true)

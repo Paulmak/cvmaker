@@ -8,36 +8,22 @@
 import UIKit
 
 protocol EditViewDelegate: AnyObject {
-    func editView(_ view: EditView, didUpdateField field: FieldType)
+    func editView<T>(_ view: EditView, didUpdate keyPath: WritableKeyPath<ProfileModel, T?>, value: T?)
     func editViewDidTapChooseImage(_ view: EditView)
     func editViewDidTapChooseDate(_ view: EditView)
     func editViewDidTapChooseExperience(_ view: EditView)
     func editViewDidTapPreview(_ view: EditView)
 }
 
-enum FieldType {
-    case firstName(String?)
-    case lastName(String?)
-    case patronymic(String?)
-    case hobbies(String?)
-    case phone(String?)
-    case mailbox(String?)
-    case telegram(String?)
-    case specialization(String?)
-    case hardSkills(String?)
-    case gender(Int)
-    case jobStatus(Bool)
-    case salary(Float, String)
-    case birthdate(String)
-    case experience(String)
-    case avatar(UIImage?)
-}
-
 final class EditView: UIView {
     
     private var formValidator: FormValidator?
+    private var birtdayFormatter: BirthDateFormatter?
     weak var delegate: EditViewDelegate?
     var isDefaultAvatar = true
+    var currentAvatarImage: UIImage? {
+        imageView.image
+    }
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -51,7 +37,7 @@ final class EditView: UIView {
         return contentView
     }()
     
-    lazy var imageView: ImageView = {
+    private lazy var imageView: ImageView = {
         let imageView = ImageView()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         imageView.addGestureRecognizer(tapGesture)
@@ -262,7 +248,6 @@ final class EditView: UIView {
     private lazy var salaryAmountLabel: Label = {
         let label = Label(labelType: .customLabel(labelTextName: "TTNorms-Medium", labelSize: 24))
         let minSalary = Int(salarySlider.minimumValue)
-        label.text = "\(minSalary.formatted(.number.grouping(.automatic))) ₽"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -281,7 +266,7 @@ final class EditView: UIView {
         configureSubviews()
         configureConstraints()
         setupFormValidator()
-        setupAllTextCallbacks()
+        setupCallbacks()
     }
     
     required init?(coder: NSCoder) {
@@ -426,58 +411,100 @@ final class EditView: UIView {
         ])
     }
     
-    private func setupAllTextCallbacks() {
-        setupTextFieldCallbacks()
-        setupTextViewCallbacks()
-        
+    func setProfile(with profile: ProfileModel, avatar: UIImage?) {
+        setFirstName(profile.firstName)
+        setLastName(profile.lastName)
+        setPatronymic(profile.patronymic)
+        setPhone(profile.phone)
+        setMailbox(profile.email)
+        setTelegram(profile.telegram)
+        setSpecialization(profile.specialization)
+        setHobbies(profile.hobbies)
+        setHardSkills(profile.hardSkills)
+        setSalary(Int(profile.salary ?? 60000))
+        setJobStatus(profile.isOpenToOffers ?? false)
+        setGender(profile.genderIndex ?? 0)
+        setBirthdate(profile.birthdate)
+        setExperience(profile.experience)
+        setAvatarImage(avatar)
+        formValidator?.forceValidation()
     }
     
-    private func setupTextFieldCallbacks() {
+    func setFirstName(_ text: String?) { firstNameTextField.text = text }
+    func setLastName(_ text: String?) { secondNameTextField.text = text }
+    func setPatronymic(_ text: String?) { patronymicTextField.text = text }
+    func setPhone(_ text: String?) { phoneNumberTextField.text = text }
+    func setMailbox(_ text: String?) { mailboxTextField.text = text }
+    func setTelegram(_ text: String?) { telegramAccountTextField.text = text }
+    func setSpecialization(_ text: String?) { specializationTextField.text = text }
+    func setHobbies(_ text: String?) { hobbiesTextView.text = text }
+    func setHardSkills(_ text: String?) { hardSkillsTextView.text = text }
+    func setSalary(_ value: Int) {
+        salarySlider.value = Float(value)
+        salaryAmountLabel.text = "\(SalaryFormatter.formatted(value))"
+    }
+    func setJobStatus(_ isOpen: Bool) { jobStatusSwitch.isOn = isOpen }
+    func setGender(_ index: Int) { segmentedControl.selectedSegmentIndex = index }
+    func setBirthdate(_ date: Date?) {
+        let text = date.flatMap { BirthDateFormatter.format($0) } ?? "Выбрать"
+            birthdayButton.setTitle(text, for: .normal)
+    }
+    func setExperience(_ experience: String?) {
+        guard let experience else {
+            experienceButton.setTitle("Выбрать", for: .normal)
+            return
+        }
+        
+        experienceButton.setTitle(
+            experience,
+            for: .normal
+        )
+    }
+    
+    private func setupCallbacks() {
         firstNameTextField.onTextChanged = { [weak self] text in
             guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: .firstName(text))
+            self.delegate?.editView(self, didUpdate: \.firstName, value: text)
         }
         
         secondNameTextField.onTextChanged = { [weak self] text in
             guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: .lastName(text))
+            self.delegate?.editView(self, didUpdate: \.lastName, value: text)
         }
         
         patronymicTextField.onTextChanged = { [weak self] text in
             guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: .patronymic(text))
+            self.delegate?.editView(self, didUpdate: \.patronymic, value: text)
         }
         
         phoneNumberTextField.onTextChanged = { [weak self] text in
             guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: .phone(text))
+            self.delegate?.editView(self, didUpdate: \.phone, value: text)
         }
         
         mailboxTextField.onTextChanged = { [weak self] text in
             guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: .mailbox(text))
+            self.delegate?.editView(self, didUpdate: \.email, value: text)
         }
         
         telegramAccountTextField.onTextChanged = { [weak self] text in
             guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: .telegram(text))
+            self.delegate?.editView(self, didUpdate: \.telegram, value: text)
         }
         
         specializationTextField.onTextChanged = { [weak self] text in
             guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: .specialization(text))
+            self.delegate?.editView(self, didUpdate: \.specialization, value: text)
         }
-    }
-    
-    private func setupTextViewCallbacks() {
+        
         hobbiesTextView.onTextChanged = { [weak self] text in
             guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: .hobbies(text))
+            self.delegate?.editView(self, didUpdate: \.hobbies, value: text)
         }
         
         hardSkillsTextView.onTextChanged = { [weak self] text in
             guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: .hardSkills(text))
+            self.delegate?.editView(self, didUpdate: \.hardSkills, value: text)
         }
     }
     
@@ -508,105 +535,9 @@ final class EditView: UIView {
         }
     }
     
-    private func setupBinding(for textField: TextField, field: FieldType) {
-        textField.onTextChanged = { [weak self] text in
-            guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: field)
-        }
-    }
-    
-    private func setupBinding(for textView: TextView, field: FieldType) {
-        textView.onTextChanged = { [weak self] text in
-            guard let self = self else { return }
-            self.delegate?.editView(self, didUpdateField: field)
-        }
-    }
-    
-    func configure(with viewModel: EditViewModel) {
-        segmentedControl.selectedSegmentIndex = viewModel.genderIndex
-        
-        let avatarData = viewModel.avatarData
-        setAvatarImage(avatarData.image)
-        
-        setValue(.firstName(viewModel.profile.firstName))
-        setValue(.lastName(viewModel.profile.lastName))
-        setValue(.patronymic(viewModel.profile.patronymic))
-        setValue(.hobbies(viewModel.profile.hobbies))
-        
-        setValue(.birthdate(viewModel.birthdateString))
-        setValue(.experience(viewModel.experienceString))
-        
-        setValue(.phone(viewModel.profile.phone))
-        setValue(.mailbox(viewModel.profile.email))
-        setValue(.telegram(viewModel.profile.telegram))
-        
-        setValue(.specialization(viewModel.profile.specialization))
-        setValue(.hardSkills(viewModel.profile.hardSkills))
-        
-        setValue(.salary(viewModel.salaryValue, viewModel.formattedSalary))
-        setValue(.jobStatus(viewModel.jobStatus))
-        
-        previewButton.isEnabled = viewModel.isFormValid
-        previewButton.alpha = viewModel.isFormValid ? 1.0 : 0.5
-    }
-    
-    func setValue(_ field: FieldType) {
-        switch field {
-        case .avatar(let image):
-            setAvatarImage(image)
-        case .firstName(let text):
-            firstNameTextField.text = text
-        case .lastName(let text):
-            secondNameTextField.text = text
-        case .patronymic(let text):
-            patronymicTextField.text = text
-        case .hobbies(let text):
-            hobbiesTextView.text = text
-        case .phone(let text):
-            phoneNumberTextField.text = text
-        case .mailbox(let text):
-            mailboxTextField.text = text
-        case .telegram(let text):
-            telegramAccountTextField.text = text
-        case .specialization(let text):
-            specializationTextField.text = text
-        case .hardSkills(let text):
-            hardSkillsTextView.text = text
-        case .gender(let index):
-            segmentedControl.selectedSegmentIndex = index
-        case .jobStatus(let isOn):
-            jobStatusSwitch.isOn = isOn
-        case .salary(let value, let label):
-            salarySlider.value = value
-            salaryAmountLabel.text = label
-        case .birthdate(let text):
-            birthdayButton.setTitle(text, for: .normal)
-        case .experience(let text):
-            experienceButton.setTitle(text, for: .normal)
-        }
-    }
-    
-    func setGender(_ genderIndex: Int) {
-        segmentedControl.selectedSegmentIndex = genderIndex
-    }
-    
-    func setSalary(_ value: Float, salaryLabel: String) {
-        salarySlider.value = value
-        salaryAmountLabel.text = salaryLabel
-        
-    }
-    
-    func setJobStatus(_ value: Bool) {
-        jobStatusSwitch.isOn = value
-    }
-    
-    func validateForm() {
-        formValidator?.forceValidation()
-    }
-    
     @objc
     private func segmentedControlChanged(_ sender: UISegmentedControl) {
-        delegate?.editView(self, didUpdateField: .gender(sender.selectedSegmentIndex))
+        delegate?.editView(self, didUpdate: \.genderIndex, value: sender.selectedSegmentIndex)
         
         if isDefaultAvatar {
             imageView.image = AvatarProvider.image(for: sender.selectedSegmentIndex)
@@ -615,9 +546,7 @@ final class EditView: UIView {
     
     @objc
     private func sliderValueChanged(_ sender: UISlider) {
-        let salaryLabel = "\(SalaryFormatter.formatted(Int(sender.value)))"
-        salaryAmountLabel.text = salaryLabel
-        delegate?.editView(self, didUpdateField: .salary(sender.value, salaryLabel))
+        delegate?.editView(self, didUpdate: \.salary, value: sender.value)
     }
     
     @objc
@@ -637,7 +566,7 @@ final class EditView: UIView {
     
     @objc
     private func jobStatusSwitchChanged(_ sender: UISwitch) {
-        delegate?.editView(self, didUpdateField: .jobStatus(sender.isOn))
+        delegate?.editView(self, didUpdate: \.isOpenToOffers, value: sender.isOn)
     }
     
     @objc

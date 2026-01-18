@@ -7,13 +7,29 @@
 
 import UIKit
 
-final class ProfileStorage {
+protocol ProfileStorageServiceProtocol {
     
-    static let shared = ProfileStorage()
+    func save<T>(_ keyPath: WritableKeyPath<ProfileModel, T?>, value: T?)
+    func load<T>(_ keyPath: KeyPath<ProfileModel, T?>) -> T?
+    func saveProfile(_ profile: ProfileModel)
+    func loadProfile() -> ProfileModel
+    func clearAllData()
+    func hasAnyData() -> Bool
+    func saveAvatar(_ image: UIImage?) -> String?
+    func loadAvatar() -> UIImage?
+    func setDataChangeObserver(_ observer: @escaping (Bool) -> Void)
+}
+
+final class ProfileStorageService: ProfileStorageServiceProtocol {
+    
+    static let shared = ProfileStorageService()
     private let defaults = UserDefaults.standard
     private let fileManager = FileManager.default
+    private var dataChangeObserver: ((Bool) -> Void)?
     
-    private init() {}
+    func setDataChangeObserver(_ observer: @escaping (Bool) -> Void) {
+        self.dataChangeObserver = observer
+    }
     
     func save<T>(_ keyPath: WritableKeyPath<ProfileModel, T?>, value: T?) {
         var profile = loadProfile()
@@ -29,6 +45,7 @@ final class ProfileStorage {
     func saveProfile(_ profile: ProfileModel) {
         if let data = try? JSONEncoder().encode(profile) {
             defaults.set(data, forKey: "com.myapp.profile")
+            notifyDataChanged()
         } else {
             print("[ProfileStorage] Failed to encode profile")
         }
@@ -68,8 +85,8 @@ final class ProfileStorage {
         (profile.salary ?? 0) > 60000 ||
         profile.genderIndex != nil ||
         profile.isOpenToOffers != nil
-        
-        let hasAvatar = loadAvatar() != nil
+
+        let hasAvatar = profile.avatarPath != nil
         
         return hasTextData || hasOtherData || hasAvatar
     }
@@ -79,6 +96,7 @@ final class ProfileStorage {
         if image == nil {
             removeExistingAvatar()
             defaults.removeObject(forKey: "com.myapp.avatarFilename")
+            notifyDataChanged()
             return nil
         }
         
@@ -91,6 +109,7 @@ final class ProfileStorage {
         do {
             try data.write(to: url, options: .atomic)
             defaults.set(filename, forKey: "com.myapp.avatarFilename")
+            notifyDataChanged()
             return filename
         } catch {
             print("[ProfileStorage] Failed to save avatar:", error)
@@ -119,5 +138,9 @@ final class ProfileStorage {
     private func avatarURL(for filename: String) -> URL {
         let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return docs.appendingPathComponent(filename)
+    }
+    
+    private func notifyDataChanged() {
+        dataChangeObserver?(hasAnyData())
     }
 }

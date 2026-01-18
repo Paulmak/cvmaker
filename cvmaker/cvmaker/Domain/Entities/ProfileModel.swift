@@ -1,13 +1,14 @@
 //
-//  ProfileModel.swift
+//  ProfileField.swift
 //  cvmaker
 //
-//  Created by Pavel on 16.11.2025.
+//  Created by Pavel on 02.11.2025.
 //
 
-import UIKit
+import Foundation
 
 struct ProfileModel: Codable {
+    var avatarPath: String?
     var firstName: String?
     var lastName: String?
     var patronymic: String?

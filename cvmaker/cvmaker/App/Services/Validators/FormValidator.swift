@@ -24,7 +24,6 @@ final class FormValidator {
         self.textFields = textFields
         self.onValidityChange = onValidityChange
         setupObservers()
-        validateForm()
     }
     
     private func setupObservers() {
