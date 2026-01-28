@@ -557,7 +557,7 @@ final class PreviewView: UIView {
         ])
     }
     
-    func configure(with state: PreviewViewState) {
+    func configure(with state: PreviewViewModel) {
         imageView.image = state.avatar ?? AvatarProvider.image(for: state.genderIndex)
         
         profileNameLabel.text = state.fullName

@@ -1,5 +1,5 @@
 //
-//  PreviewViewState.swift
+//  PreviewViewModel.swift
 //  cvmaker
 //
 //  Created by Pavel on 14.01.2026.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct PreviewViewState {
+struct PreviewViewModel {
     
     let avatar: UIImage?
     let fullName: String?

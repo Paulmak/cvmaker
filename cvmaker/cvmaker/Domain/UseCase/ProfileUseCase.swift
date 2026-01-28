@@ -9,12 +9,10 @@ import UIKit
 
 protocol ProfileUseCaseProtocol {
     func update<T>(_ keyPath: WritableKeyPath<ProfileModel, T?>, with value: T?)
-    func loadProfile() -> ProfileModel
+    func loadProfile() -> ProfileLoadResult
     func clearProfile()
     func saveAvatar(image: UIImage?)
-    func loadAvatar() -> UIImage?
     var isFormValid: Bool { get }
-    var hasAnyData: Bool { get }
 }
 
 final class ProfileUseCase: ProfileUseCaseProtocol {
@@ -31,9 +29,16 @@ final class ProfileUseCase: ProfileUseCaseProtocol {
         profileRepository.saveProfile(profile)
     }
     
-    func loadProfile() -> ProfileModel {
+    func loadProfile() -> ProfileLoadResult {
         let profile = profileRepository.loadProfile()
-        return profile
+        let avatar = profileRepository.loadAvatar()
+        let hasAnyData = profileRepository.hasAnyData()
+        
+        return ProfileLoadResult(
+            profile: profile,
+            avatar: avatar,
+            hasAnyData: hasAnyData
+        )
     }
     
     func clearProfile() {
@@ -44,10 +49,6 @@ final class ProfileUseCase: ProfileUseCaseProtocol {
         profileRepository.saveAvatar(image: image)
     }
     
-    func loadAvatar() -> UIImage? {
-        profileRepository.loadAvatar()
-    }
-    
     var isFormValid: Bool {
         let profile = profileRepository.loadProfile()
         return
@@ -55,9 +56,5 @@ final class ProfileUseCase: ProfileUseCaseProtocol {
         !(profile.lastName?.isEmpty ?? true) &&
         !(profile.phone?.isEmpty ?? true) &&
         !(profile.specialization?.isEmpty ?? true)
-    }
-    
-    var hasAnyData: Bool {
-        profileRepository.hasAnyData()
     }
 }

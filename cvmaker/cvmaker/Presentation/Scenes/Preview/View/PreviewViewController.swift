@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PreviewViewControllerProtocol: AnyObject {
-    func present(state: PreviewViewState)
+    func present(state: PreviewViewModel)
 }
 
 final class PreviewViewController: UIViewController, PreviewViewDelegate {
@@ -55,7 +55,7 @@ final class PreviewViewController: UIViewController, PreviewViewDelegate {
 
 extension PreviewViewController: PreviewViewControllerProtocol {
     
-    func present(state: PreviewViewState) {
+    func present(state: PreviewViewModel) {
         previewView.configure(with: state)
     }
 }

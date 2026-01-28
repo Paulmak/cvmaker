@@ -72,7 +72,7 @@ final class PreviewPresenter: PreviewPresenterProtocol {
             return SalaryFormatter.formatted(Int(salary))
         }()
         
-        let state = PreviewViewState(
+        let state = PreviewViewModel(
             avatar: avatar,
             fullName: fullName,
             genderAndAge: genderAndAge,

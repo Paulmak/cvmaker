@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		71263FB52F17BCF700C37D14 /* PreviewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71263FB42F17BCF700C37D14 /* PreviewPresenter.swift */; };
-		71263FB72F17D8A900C37D14 /* PreviewViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71263FB62F17D8A900C37D14 /* PreviewViewState.swift */; };
+		71263FB72F17D8A900C37D14 /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71263FB62F17D8A900C37D14 /* PreviewViewModel.swift */; };
 		7143C5252F155DA6004BBF44 /* ExperiencePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7143C5242F155DA5004BBF44 /* ExperiencePickerViewController.swift */; };
+		71687D042F2921E600997AC7 /* ProfileLoadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71687D032F2921E600997AC7 /* ProfileLoadResult.swift */; };
 		717E85E32F13B19400FE22E9 /* SFProText-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 717E859B2F13B19400FE22E9 /* SFProText-Medium.otf */; };
 		717E85E42F13B19400FE22E9 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 717E859C2F13B19400FE22E9 /* SFProText-Semibold.ttf */; };
 		717E85E52F13B19400FE22E9 /* TTNorms-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 717E859D2F13B19400FE22E9 /* TTNorms-Bold.ttf */; };
@@ -59,8 +60,9 @@
 
 /* Begin PBXFileReference section */
 		71263FB42F17BCF700C37D14 /* PreviewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPresenter.swift; sourceTree = "<group>"; };
-		71263FB62F17D8A900C37D14 /* PreviewViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewState.swift; sourceTree = "<group>"; };
+		71263FB62F17D8A900C37D14 /* PreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewModel.swift; sourceTree = "<group>"; };
 		7143C5242F155DA5004BBF44 /* ExperiencePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperiencePickerViewController.swift; sourceTree = "<group>"; };
+		71687D032F2921E600997AC7 /* ProfileLoadResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLoadResult.swift; sourceTree = "<group>"; };
 		717936972E8C362F003E247B /* cvmaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cvmaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		717E85972F13B19400FE22E9 /* StackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
 		717E85982F13B19400FE22E9 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				717E85B82F13B19400FE22E9 /* ProfileUseCase.swift */,
+				71687D032F2921E600997AC7 /* ProfileLoadResult.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -339,7 +342,7 @@
 			children = (
 				717E85DB2F13B19400FE22E9 /* PreviewView.swift */,
 				717E85DC2F13B19400FE22E9 /* PreviewViewController.swift */,
-				71263FB62F17D8A900C37D14 /* PreviewViewState.swift */,
+				71263FB62F17D8A900C37D14 /* PreviewViewModel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -478,7 +481,7 @@
 				717E85F72F13B19400FE22E9 /* SceneDelegate.swift in Sources */,
 				717E85F82F13B19400FE22E9 /* ProfileRepository.swift in Sources */,
 				717E85F92F13B19400FE22E9 /* ProfileModel.swift in Sources */,
-				71263FB72F17D8A900C37D14 /* PreviewViewState.swift in Sources */,
+				71263FB72F17D8A900C37D14 /* PreviewViewModel.swift in Sources */,
 				717E85FA2F13B19400FE22E9 /* ProfileUseCase.swift in Sources */,
 				717E85FB2F13B19400FE22E9 /* ActionButton.swift in Sources */,
 				717E85FC2F13B19400FE22E9 /* ImageView.swift in Sources */,
@@ -491,6 +494,7 @@
 				717E86022F13B19400FE22E9 /* Switch.swift in Sources */,
 				717E86032F13B19400FE22E9 /* TappableButton.swift in Sources */,
 				717E86042F13B19400FE22E9 /* TextField.swift in Sources */,
+				71687D042F2921E600997AC7 /* ProfileLoadResult.swift in Sources */,
 				717E86052F13B19400FE22E9 /* TextView.swift in Sources */,
 				717E86072F13B19400FE22E9 /* DetailImageView.swift in Sources */,
 				717E86082F13B19400FE22E9 /* DetailImageViewController.swift in Sources */,

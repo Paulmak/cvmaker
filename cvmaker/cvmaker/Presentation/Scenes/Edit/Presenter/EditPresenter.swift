@@ -9,19 +9,19 @@ import UIKit
 
 protocol EditPresenterProtocol {
     
-    func present(profile: ProfileModel, avatar: UIImage?)
+    func present(profile: ProfileModel, avatar: UIImage?, deleteButtonIsVisible: Bool)
     func presentEmptyState()
     func presentImageActions()
     func presentPreviewScreen()
-    func presentDeleteButton(isVisible: Bool)
 }
 
 final class EditPresenter: EditPresenterProtocol {
     
     weak var view: EditViewControllerProtocol?
     
-    func present(profile: ProfileModel, avatar: UIImage?) {
+    func present(profile: ProfileModel, avatar: UIImage?, deleteButtonIsVisible: Bool) {
         view?.present(profile: profile, avatar: avatar)
+        view?.setDeleteButtonVisible(deleteButtonIsVisible)
     }
     
     func presentEmptyState() {
@@ -34,9 +34,5 @@ final class EditPresenter: EditPresenterProtocol {
     
     func presentPreviewScreen() {
         view?.presentPreview()
-    }
-    
-    func presentDeleteButton(isVisible: Bool) {
-        view?.setDeleteButtonVisible(isVisible)
     }
 }

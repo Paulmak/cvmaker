@@ -1,5 +1,5 @@
 //
-//  PreviewViewModel.swift
+//  PreviewInteractor.swift
 //  cvmaker
 //
 //  Created by Pavel on 16.11.2025.
@@ -27,6 +27,9 @@ final class PreviewInteractor: PreviewInteractorProtocol {
     func start() {
         let profile = storage.loadProfile()
         let avatar = storage.loadAvatar()
-        presenter.present(profile: profile, avatar: avatar)
+        presenter.present(
+            profile: profile,
+            avatar: avatar
+        )
     }
 }

@@ -138,6 +138,7 @@ extension EditViewController: EditViewControllerProtocol {
     func resetToEmptyState() {
         let emptyProfile = ProfileModel()
         editView.setProfile(with: emptyProfile, avatar: nil)
+        setDeleteButtonVisible(false)
     }
     
     func presentPreview() {

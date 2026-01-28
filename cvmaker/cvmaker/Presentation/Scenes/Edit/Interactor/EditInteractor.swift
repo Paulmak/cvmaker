@@ -14,7 +14,6 @@ protocol EditInteractorProtocol {
     func didTapAvatarImage()
     func didSelectAvatarImage(_ image: UIImage?)
     func didTapClearButton()
-    func updateDeleteButtonVisibility()
     func didTapPresentButton()
 }
 
@@ -32,20 +31,22 @@ final class EditInteractor: EditInteractorProtocol {
     }
     
     func start() {
-        let profile = profileUseCase.loadProfile()
-        let hasData = profileUseCase.hasAnyData
-        let avatar = profileUseCase.loadAvatar()
-        editPresenter.present(profile: profile, avatar: avatar)
-        editPresenter.presentDeleteButton(isVisible: hasData)
+        let result = profileUseCase.loadProfile()
+        editPresenter.present(
+            profile: result.profile,
+            avatar: result.avatar,
+            deleteButtonIsVisible: result.hasAnyData
+        )
     }
     
     func update<T>(_ keyPath: WritableKeyPath<ProfileModel, T?>, value: T?) {
         profileUseCase.update(keyPath, with: value)
-        let profile = profileUseCase.loadProfile()
-        let hasAnyData = profileUseCase.hasAnyData
-        let avatar = profileUseCase.loadAvatar()
-        editPresenter.present(profile: profile, avatar: avatar)
-        editPresenter.presentDeleteButton(isVisible: hasAnyData)
+        let result = profileUseCase.loadProfile()
+        editPresenter.present(
+            profile: result.profile,
+            avatar: result.avatar,
+            deleteButtonIsVisible: result.hasAnyData
+        )
     }
     
     func didTapAvatarImage() {
@@ -55,21 +56,17 @@ final class EditInteractor: EditInteractorProtocol {
     func didSelectAvatarImage(_ image: UIImage?) {
         profileUseCase.saveAvatar(image: image)
 
-        let profile = profileUseCase.loadProfile()
-        let avatar = profileUseCase.loadAvatar()
-        editPresenter.present(profile: profile, avatar: avatar)
-        editPresenter.presentDeleteButton(isVisible: profileUseCase.hasAnyData)
+        let result = profileUseCase.loadProfile()
+        editPresenter.present(
+            profile: result.profile,
+            avatar: result.avatar,
+            deleteButtonIsVisible: result.hasAnyData
+        )
     }
     
     func didTapClearButton() {
         profileUseCase.clearProfile()
         editPresenter.presentEmptyState()
-        editPresenter.presentDeleteButton(isVisible: false)
-    }
-    
-    func updateDeleteButtonVisibility() {
-        let hasData = profileUseCase.hasAnyData
-        editPresenter.presentDeleteButton(isVisible: hasData)
     }
     
     func didTapPresentButton() {
